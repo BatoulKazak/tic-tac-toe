@@ -1,0 +1,145 @@
+
+let inputs = Array.from(Array(3), () => Array(3).fill(null));
+let divs = Array.from(document.querySelectorAll('.grid div'));
+
+let currentCharacter = 'o';
+let currentPlayer = document.querySelector('div.current-player');
+
+divs.forEach((div, index) => {
+    div.addEventListener('click', e => {
+        if (div.className != "") { return; }
+        
+        let i = Math.floor(index / 3);
+        let j = Math.floor(index % 3);
+        inputs[i][j] = div.className = currentCharacter;
+        currentCharacter = (currentCharacter == 'o') ? 'x' : 'o';
+
+        currentPlayer.className = "current-player disabled";
+        setTimeout(() => currentPlayer.className = "current-player " + currentCharacter, 200);
+
+        CheckWinner();
+    });
+});
+
+let checkers = Array(8);
+
+function CheckWinner() {
+    SetCheckers();
+    let checkerIndex = -1;
+    checkers.forEach((checker, index) => {
+        if (checker) { checkerIndex = index; return; }
+    });
+
+    if (checkerIndex == -1) { return; }
+    
+    if (checkerIndex == 1) {
+         document.querySelector(".line1").className += " " + checkerIndex;
+         document.querySelector("grid").setAttribute('translate', "20px 20px"); 
+         }
+    if (checkerIndex == 2) {
+         document.querySelector(".line2").className += " " + checkerIndex;
+         document.querySelector("grid").setAttribute('translate', "20px 20px"); 
+         }
+    if (checkerIndex == 3) {
+         document.querySelector(".line3").className += " " + checkerIndex;
+         document.querySelector("grid").setAttribute('translate', "20px 20px"); 
+         }
+    if (checkerIndex == 4) {
+         document.querySelector(".line4").className += " " + checkerIndex;
+         document.querySelector("grid").setAttribute('translate', "20px 20px"); 
+         }
+    if (checkerIndex == 6) {
+         document.querySelector(".line6").className += " " + checkerIndex;
+         document.querySelector("grid").setAttribute('translate', "20px 20px"); 
+         }
+    if (checkerIndex == 7) {
+        document.querySelector(".line7").className += " " + checkerIndex;
+        document.querySelector("grid").setAttribute('translate', "20px 20px"); 
+         }
+    if (checkerIndex == 8) {
+        document.querySelector(".line8").className += " " + checkerIndex;
+        document.querySelector("grid").setAttribute('translate', "20px 20px"); 
+         }
+    if (checkerIndex == 9) {
+        document.querySelector(".line9").className += " " + checkerIndex;
+        document.querySelector("grid").setAttribute('translate', "20px 20px"); 
+         }
+
+}
+
+function SetCheckers() {
+    for (let i = 0; i < 3; i++) {
+        checkers[i] = inputs[i][0] != null && inputs[i][0] == inputs[i][1] && inputs[i][1] == inputs[i][2];
+    }
+    for (let i = 0; i < 3; i++) {
+        checkers[i + 3] = inputs[0][i] != null && inputs[0][i] == inputs[1][i] && inputs[1][i] == inputs[2][i];
+    }
+    checkers[6] = inputs[0][0] != null && inputs[0][0] == inputs[1][1] && inputs[1][1] == inputs[2][2];
+    checkers[7] = inputs[0][2] != null && inputs[0][2] == inputs[1][1] && inputs[1][1] == inputs[2][0];
+}
+
+/*
+let count = 5;
+
+let grids = Array.from(Array(count), () => new Array(count).fill(null));
+let numbers = new Set();
+
+let gridTable = document.querySelector("#grid-table");
+for (let i = 0; i < count; i++) {
+    for (let j = 0; j < count; j++) {
+        let grid = document.createElement("div");
+        gridTable.appendChild(grid);
+        grids[i][j] = grid;
+        grid.setAttribute("i", i);
+        grid.setAttribute("j", j);
+
+        let number;
+        do {
+            number = Math.floor(Math.random() * count * count) + 1;
+            if (numbers.has(number)) { continue; }
+
+            numbers.add(number);
+            break;
+        } while (true);
+
+        grid.innerText = number;
+        
+        grid.addEventListener("click", e => {
+            let x = Number(grid.getAttribute("i")), y = Number(grid.getAttribute("j"));
+            
+            console.log(x, y + 1, y + 1 < count ? grids[x][y + 1] : "NULL");
+            console.log(x, y - 1, y - 1 >= 0 ? grids[x][y - 1] : "NULL");
+            console.log(x - 1, y, x - 1 >= 0 ? grids[x - 1][y] : "NULL");
+            console.log(x + 1, y, x + 1 < count ? grids[x + 1][y] : "NULL");
+
+            if (y + 1 < count && grids[x][y + 1].innerText == "B") { Swap(x, y, x, y + 1); }
+            if (y - 1 >= 0 && grids[x][y - 1].innerText == "B") { Swap(x, y, x, y - 1); }
+            if (x - 1 >= 0 && grids[x - 1][y].innerText == "B") { Swap(x, y, x - 1, y); }
+            if (x + 1 < count && grids[x + 1][y].innerText == "B") { Swap(x, y, x + 1, y); }
+        });
+    }
+}
+grids[count - 1][count - 1].innerText = "B";
+grids[count - 1][count - 1].classList.add("empty");
+
+gridTable.style.setProperty("--count", count);
+
+function Swap(i1, j1, i2, j2) {
+    let temporaryText = grids[i1][j1].innerText;
+    grids[i1][j1].innerText = grids[i2][j2].innerText;
+    grids[i2][j2].innerText = temporaryText;
+
+    let temporaryClassName = grids[i1][j1].className;
+    grids[i1][j1].className = grids[i2][j2].className;
+    grids[i2][j2].className = temporaryClassName;
+
+    let temporaryI = grids[i1][j1].getAttribute("i");
+    grids[i1][j1].setAttribute("i", grids[i2][j2].getAttribute("i"));
+    grids[i2][j2].setAttribute("i", temporaryI);
+
+    let temporaryJ = grids[i1][j1].getAttribute("j");
+    grids[i1][j1].setAttribute("j", grids[i2][j2].getAttribute("j"));
+    grids[i2][j2].setAttribute("j", temporaryJ);
+
+}
+*/

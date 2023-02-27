@@ -1,0 +1,218 @@
+body {
+    background-color: black;
+    min-height: 100vh;
+    margin: 0;
+
+    display: flex;
+    place-content: center;
+    place-items: center;
+    background-color: #111;
+    color: dodgerblue;
+}
+
+.section2 {
+    background-color: rgb(48, 151, 182);
+    color: aliceblue;
+    width: 400px;
+    height: 200px;
+    position: absolute;
+    border-radius: 3%;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 500ms;
+    border: 3px solid rgb(29, 78, 128);
+}
+.section2.shown {
+    opacity: 1;
+    visibility: visible;
+}
+div p {
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
+    text-shadow: 2px 2px black;
+    font-stretch: expanded;
+    margin-top: 80px;
+}
+.section2 button {
+    background-color: rgb(77, 77, 182);
+    font-size: 20px;
+    font-weight: 20px;
+    place-content:end;
+    place-items: end;
+    margin: 40px;
+    width: 110px;
+    margin-top: 20px;
+    border-radius: 9%;
+}
+.main-div {
+    display: block;
+    place-content: center;
+    place-items: center;
+    position: relative;
+}
+
+section {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    gap: 10px;
+}
+
+.players {
+    text-shadow: 3px 3px 1px black;
+}
+
+.father {
+    display: flex;
+    place-content: center;
+    place-items: center;
+
+    gap: 10px;
+
+    place-self: end;
+}
+
+.father p.current-player {
+    margin: 0;
+    font-family: "Consolas";
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: 3px 3px 1px black;
+}
+
+.father div.current-player {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border: 2px solid rgb(8, 60, 102);
+    border-radius: 16%;
+    background-color: rgb(19, 83, 148);
+
+    box-shadow: 5px 5px 4px black;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    place-content: center;
+    place-items: center;
+    border-radius: 10%;
+    border: 2px solid rgb(8, 60, 102);
+
+    overflow: hidden;
+    box-shadow: 10px 10px 4px black;
+}
+
+:is(.grid, .father) div {
+    --psuedo-elements-colour: dodgerblue;
+
+    position: relative;
+
+    background-color: rgb(19, 83, 148);
+    color: white;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    border: inherit;
+
+    background-size: cover;
+}
+/* .grid div.o { background-image: url("Images/O.jpg") }
+.grid div.x { background-image: url("Images/X.jpg") } */
+:is(.grid, .father) div::before,
+:is(.grid, .father) div::after,
+.father div.disabled::before,
+.father div.disabled::after {
+    content: "";
+    scale: 0;
+    opacity: 0;
+    transition: scale 500ms, opacity 500ms;
+}
+:is(.grid, .father) div.o::before,
+:is(.grid, .father) div.o::after,
+:is(.grid, .father) div.x::before,
+:is(.grid, .father) div.x::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    background-color: var(--psuedo-elements-colour);
+    scale: 1;
+    opacity: 1;
+}
+:is(.grid, .father) div.o::before {
+    width: 80%;
+    height: 80%;
+    border-radius: 100%;
+}
+:is(.grid, .father) div.o::after {
+    width: 60%;
+    height: 60%;
+    border-radius: 100%;
+    background-color: inherit;
+}
+:is(.grid, .father) div.x::before {
+    width: 80%;
+    height: 10%;
+    border-radius: 100vh;
+    rotate: 45deg;
+}
+:is(.grid, .father) div.x::after {
+    width: 80%;
+    height: 10%;
+    border-radius: 100vh;
+    rotate: -45deg;
+}
+
+.line {
+    width: 7px;
+    height: 310px;
+    background-color: rgb(207, 25, 65);
+    position: absolute;
+    visibility: hidden;
+}
+
+.line:is(.i0, .i1, .i2, .i3, .i4, .i5, .i6, .i7) {
+    visibility: visible;
+}
+
+.line:is(.i0, .i1, .i2) {
+    width: 310px;
+    height: 7px;
+}
+
+.line.i0 { 
+    translate: 0px -100px;
+} 
+
+.line.i2 {
+    translate: 0 100px;
+} 
+
+.line.i3 {
+    translate: -100px 0px;
+} 
+
+.line.i5 {
+    translate: 100px 0px;
+}
+
+.line:is(.i6, .i7) {
+    width: 7px;
+    height: 420px;
+}
+
+.line.i6 {
+    rotate: -45deg;
+} 
+
+.line.i7 {
+    rotate: 45deg;
+}
